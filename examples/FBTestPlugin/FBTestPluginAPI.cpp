@@ -256,7 +256,7 @@ FB::VariantMap FBTestPluginAPI::getUserData()
     return map;
 }
 
-boost::shared_ptr<SimpleMathAPI> FBTestPluginAPI::get_simpleMath()
+boost::weak_ptr<SimpleMathAPI> FBTestPluginAPI::get_simpleMath()
 {
     return m_simpleMath;
 }
@@ -289,6 +289,8 @@ std::string FBTestPluginAPI::get_pluginPath()
 
 long FBTestPluginAPI::countArrayLength(const FB::JSObjectPtr &jso) 
 {
+    if (!jso)
+        throw FB::invalid_arguments();
     if (!jso->HasProperty("getArray"))
         throw FB::invalid_arguments();
     FB::VariantList array = jso->GetProperty("getArray").cast<FB::VariantList>();
